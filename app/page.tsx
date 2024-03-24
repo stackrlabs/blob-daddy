@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Header } from "./components/Header";
 import { SettleSection } from "./components/SettleSection";
+import { ResponseSection } from "./components/ResponseSection";
 
 export enum Chain {
   AVAIL = "Avail",
@@ -45,6 +46,7 @@ export default function Home() {
           setSelectedTab={setSelectedTab}
           onSettle={onSettle}
         />
+        <ResponseSection response={response} />
       </div>
       <Footer text="🖖 Build long and prosper">
         <Image
