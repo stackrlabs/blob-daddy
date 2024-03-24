@@ -67,9 +67,9 @@ export const VerifySection: React.FC<VerifySectionProps> = ({
         />
       </div>
       {autoRefresh && pending && jobId != "" ? (
-        <div className="flex flex-col w-full items-center justify-center h-full">
+        <div className="flex flex-col w-full items-center justify-center h-full gap-3 border-x border-grey-elevation-4">
           <Spinner />
-          <span>Verifying...</span>
+          <span className="font-bold">Verifying</span>
         </div>
       ) : (
         <CodeTerminal text={verifyResponse} />

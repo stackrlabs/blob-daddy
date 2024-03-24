@@ -47,7 +47,10 @@ export default function Home() {
     });
     const json = await res.json();
     setPending(json.status === "pending");
-    setVerifyResponse(json);
+    if (json.status != "pending") {
+      setVerifyResponse(json);
+      setResponse(json);
+    }
   };
 
   useEffect(() => {
@@ -57,10 +60,9 @@ export default function Home() {
 
     const intervalId = setInterval(() => {
       if (jobId != "" && autoRefresh && pending) {
-        console.log("call");
         loopCall();
       }
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, [jobId, autoRefresh, pending]);
