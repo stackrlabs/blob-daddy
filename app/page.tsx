@@ -1,10 +1,11 @@
 "use client";
-import { Footer } from "./components/Footer";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Header } from "./components/Header";
-import { SettleSection } from "./components/SettleSection";
+import { Footer } from "./components/Footer";
 import { ResponseSection } from "./components/ResponseSection";
+import { SettleSection } from "./components/SettleSection";
+import Image from "next/image";
+import { VerifySection } from "./components/VerifySection";
+import { Header } from "./components/Header";
 
 export enum Chain {
   AVAIL = "Avail",
@@ -13,12 +14,13 @@ export enum Chain {
 }
 
 export default function Home() {
-  const [data, setData] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<Chain>(Chain.AVAIL);
   const [response, setResponse] = useState<string>("");
-  const [pending, setPending] = useState<boolean>(true);
   const [verifyResponse, setVerifyResponse] = useState<string>("");
+  const [pending, setPending] = useState<boolean>(true);
+  const [data, setData] = useState<string>("");
   const [jobId, setJobId] = useState<string>("");
+  const [autoRefresh, setAutoRefresh] = useState<boolean>(false);
 
   const onSettle = async (data: string, chain: string) => {
     const res = await fetch("/api/settle", {
@@ -35,6 +37,34 @@ export default function Home() {
     setJobId("");
   };
 
+  const onVerify = async (jobId: string) => {
+    const res = await fetch("/api/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ jobId }),
+    });
+    const json = await res.json();
+    setPending(json.status === "pending");
+    setVerifyResponse(json);
+  };
+
+  useEffect(() => {
+    const loopCall = async () => {
+      await onVerify(jobId);
+    };
+
+    const intervalId = setInterval(() => {
+      if (jobId != "" && autoRefresh && pending) {
+        console.log("call");
+        loopCall();
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [jobId, autoRefresh, pending]);
+
   return (
     <main className="w-screen h-screen flex flex-col px-20 pt-12 pb-6 gap-12">
       <Header />
@@ -47,6 +77,15 @@ export default function Home() {
           onSettle={onSettle}
         />
         <ResponseSection response={response} />
+        <VerifySection
+          jobId={jobId}
+          setJobId={setJobId}
+          verifyResponse={verifyResponse}
+          onVerify={onVerify}
+          autoRefresh={autoRefresh}
+          setAutoRefresh={setAutoRefresh}
+          pending={pending}
+        />
       </div>
       <Footer text="🖖 Build long and prosper">
         <Image
