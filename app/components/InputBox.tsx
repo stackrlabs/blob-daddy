@@ -17,7 +17,7 @@ export const InputBox: React.FC<InputBoxProps> = ({
 
   return (
     <input
-      className="h-full w-full p-2 border border-x-grey-elevation-4 border-b-grey-elevation-4 border-t-transparent text-white-44 bg-grey-elevation-1 focus:border-teal-primary outline-none"
+      className="h-full w-full p-2 border border-x-grey-elevation-4 border-b-grey-elevation-4 border-t-transparent placeholder:text-white-44 text-white bg-grey-elevation-1 focus:border-teal-primary outline-none disabled:text-white-44"
       value={value}
       placeholder={placeholder}
       disabled={disabled}

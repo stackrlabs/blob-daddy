@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { Check } from "@phosphor-icons/react/dist/ssr";
 import { CaretUpDown } from "@phosphor-icons/react/dist/ssr";
-import { Chain } from "../page";
+import { Chain } from "../constants";
 
 interface DASelectorProps {
   selectedTab: Chain;
@@ -37,7 +37,9 @@ export const DASelector: React.FC<DASelectorProps> = ({
                     }`
                   }
                   value={chain}
-                  disabled={chain != Chain.AVAIL}
+                  disabled={
+                    chain == Chain.EIGENLAYER || chain == Chain.CELESTIA
+                  }
                 >
                   {({ selected }) => (
                     <div className="flex gap-3 w-full">

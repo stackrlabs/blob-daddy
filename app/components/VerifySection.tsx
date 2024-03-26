@@ -4,7 +4,7 @@ import { SectionHeader } from "./SectionHeader";
 import { CodeTerminal } from "./CodeTerminal";
 import { PrimaryButton } from "./PrimaryButton";
 import { InputBox } from "./InputBox";
-import { LabelTextDisplay } from "./LabelTextDisplay";
+import { LabelLinkDisplay } from "./LabelLinkDisplay";
 import { Switch } from "@headlessui/react";
 import { Spinner } from "./Spinner";
 
@@ -16,6 +16,7 @@ interface VerifySectionProps {
   autoRefresh: boolean;
   setAutoRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   pending: boolean;
+  explorerLink: string;
 }
 
 export const VerifySection: React.FC<VerifySectionProps> = ({
@@ -26,6 +27,7 @@ export const VerifySection: React.FC<VerifySectionProps> = ({
   autoRefresh,
   setAutoRefresh,
   pending,
+  explorerLink,
 }) => {
   const textColour = autoRefresh ? "text-teal-primary" : "text-white-44";
   return (
@@ -74,10 +76,7 @@ export const VerifySection: React.FC<VerifySectionProps> = ({
       ) : (
         <CodeTerminal text={verifyResponse} />
       )}
-      <LabelTextDisplay
-        label="Explorer:"
-        text="https://explorer.vulcanlink.com"
-      />
+      <LabelLinkDisplay label="Explorer:" text={explorerLink} />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { SectionHeader } from "./SectionHeader";
 import { TextBox } from "./TextBox";
 import { DASelector } from "./DASelector";
 import { PrimaryButton } from "./PrimaryButton";
-import { Chain } from "../page";
+import { Chain } from "../constants";
 
 interface SettleSectionProps {
   data: string;

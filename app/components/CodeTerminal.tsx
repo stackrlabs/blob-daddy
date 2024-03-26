@@ -20,7 +20,7 @@ export const CodeTerminal: React.FC<CodeTerminalProps> = ({
 }) => {
   return (
     <div
-      className={`w-full h-full bg-grey-default border border-grey-elevation-4 border-t-transparent ${rounded} overflow-scroll p-4`}
+      className={`flex w-full h-full bg-grey-default border border-grey-elevation-4 border-t-transparent ${rounded} overflow-scroll p-4`}
     >
       <JSONPretty id="json-pretty" theme={theme} data={text} />
     </div>

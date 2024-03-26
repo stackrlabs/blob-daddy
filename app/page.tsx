@@ -6,12 +6,7 @@ import { SettleSection } from "./components/SettleSection";
 import Image from "next/image";
 import { VerifySection } from "./components/VerifySection";
 import { Header } from "./components/Header";
-
-export enum Chain {
-  AVAIL = "Avail",
-  EIGENLAYER = "EigenLayer",
-  CELESTIA = "Celestia",
-}
+import { Chain } from "./constants";
 
 export default function Home() {
   const [selectedTab, setSelectedTab] = useState<Chain>(Chain.AVAIL);
@@ -21,6 +16,13 @@ export default function Home() {
   const [data, setData] = useState<string>("");
   const [jobId, setJobId] = useState<string>("");
   const [autoRefresh, setAutoRefresh] = useState<boolean>(false);
+  const [explorerLink, setExplorerLink] = useState<string>("");
+
+  useEffect(() => {
+    setVerifyResponse("");
+    setPending(true);
+    setExplorerLink("");
+  }, [jobId]);
 
   const onSettle = async (data: string, chain: string) => {
     const res = await fetch("/api/settle", {
@@ -30,11 +32,11 @@ export default function Home() {
       },
       body: JSON.stringify({ data, chain }),
     });
-    const json = await res.json();
-    setResponse(json);
+    const responseJson = await res.json();
+    setResponse(responseJson);
     setVerifyResponse("");
     setPending(true);
-    setJobId("");
+    setJobId(responseJson.jobID);
   };
 
   const onVerify = async (jobId: string) => {
@@ -45,11 +47,12 @@ export default function Home() {
       },
       body: JSON.stringify({ jobId }),
     });
-    const json = await res.json();
-    setPending(json.status === "pending");
-    if (json.status != "pending") {
-      setVerifyResponse(json);
-      setResponse(json);
+    const responseJson = await res.json();
+    setPending(responseJson.status === "pending");
+    setVerifyResponse(responseJson);
+    if (responseJson.link) {
+      setAutoRefresh(false);
+      setExplorerLink(responseJson.link);
     }
   };
 
@@ -68,7 +71,7 @@ export default function Home() {
   }, [jobId, autoRefresh, pending]);
 
   return (
-    <main className="w-screen h-screen flex flex-col px-20 pt-12 pb-6 gap-12">
+    <main className="w-screen h-screen flex flex-col px-20 pt-12 pb-6 gap-10">
       <Header />
       <div className="flex gap-10 h-full overflow-hidden">
         <SettleSection
@@ -87,9 +90,11 @@ export default function Home() {
           autoRefresh={autoRefresh}
           setAutoRefresh={setAutoRefresh}
           pending={pending}
+          explorerLink={explorerLink}
         />
       </div>
-      <Footer text="🖖 Build long and prosper">
+      <Footer>
+        <span className="text-fg-primary text-lg">Built with ❤️ by</span>
         <Image
           src="https://assets.stackrlabs.xyz/light.svg"
           alt="Stackr Logo"
