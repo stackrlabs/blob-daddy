@@ -37,9 +37,7 @@ export const DASelector: React.FC<DASelectorProps> = ({
                     }`
                   }
                   value={chain}
-                  disabled={
-                    chain == Chain.EIGENLAYER || chain == Chain.CELESTIA
-                  }
+                  disabled={chain == Chain.EIGENLAYER}
                 >
                   {({ selected }) => (
                     <div className="flex gap-3 w-full">
