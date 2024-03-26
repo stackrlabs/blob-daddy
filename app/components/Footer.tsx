@@ -1,13 +1,9 @@
 interface FooterProps {
-  text: string;
   children?: React.ReactNode;
 }
 
-export const Footer: React.FC<FooterProps> = ({ text, children }) => {
+export const Footer: React.FC<FooterProps> = ({ children }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      {children}
-      {/* <span>{text}</span> */}
-    </div>
+    <div className="flex items-center justify-center w-full">{children}</div>
   );
 };
