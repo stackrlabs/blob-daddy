@@ -27,7 +27,7 @@ export const DASelector: React.FC<DASelectorProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute bottom-full mb-1 w-fit border rounded-md bg-grey-elevation-4 py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Listbox.Options className="absolute bottom-full mb-1 w-fit rounded-md bg-grey-elevation-4 py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
               {Object.values(Chain).map((chain, chainIndex) => (
                 <Listbox.Option
                   key={chainIndex}
