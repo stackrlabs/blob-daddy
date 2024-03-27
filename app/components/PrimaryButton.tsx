@@ -13,7 +13,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`py-2 px-4 flex-1 rounded-rb-lg text-black ${
+      className={`flex justify-center py-2 px-4 flex-1 rounded-rb-lg text-black ${
         disabled
           ? "cursor-not-allowed bg-teal-primary-3"
           : "cursor-pointer bg-teal-primary"

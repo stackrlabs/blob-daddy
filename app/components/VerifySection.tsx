@@ -7,12 +7,13 @@ import { InputBox } from "./InputBox";
 import { LabelLinkDisplay } from "./LabelLinkDisplay";
 import { Switch } from "@headlessui/react";
 import { Spinner } from "./Spinner";
+import { useState } from "react";
 
 interface VerifySectionProps {
   jobId: string;
   setJobId: React.Dispatch<React.SetStateAction<string>>;
   verifyResponse: string;
-  onVerify: (job_id: string) => void;
+  onVerify: (job_id: string) => Promise<void>;
   autoRefresh: boolean;
   setAutoRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   pending: boolean;
@@ -30,13 +31,14 @@ export const VerifySection: React.FC<VerifySectionProps> = ({
   explorerLink,
 }) => {
   const textColour = autoRefresh ? "text-teal-primary" : "text-white-44";
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="flex flex-col h-full w-1/3 rounded-lg overflow-hidden">
       <SectionHeader
         heading="Verify Job"
         onHoverText="Add your job id to verify your data availability."
       >
-        <span className={`${textColour}`}>Auto-refresh</span>
+        <span className={`${textColour}`}>Auto-verify</span>
         <Switch
           checked={autoRefresh}
           onChange={setAutoRefresh}
@@ -61,10 +63,12 @@ export const VerifySection: React.FC<VerifySectionProps> = ({
           />
         </div>
         <PrimaryButton
-          text="Verify"
-          disabled={autoRefresh}
-          onClick={() => {
-            onVerify(jobId);
+          text={isLoading ? <Spinner /> : "Verify"}
+          disabled={autoRefresh || jobId == "" || isLoading}
+          onClick={async () => {
+            setIsLoading(true);
+            await onVerify(jobId);
+            setIsLoading(false);
           }}
         />
       </div>

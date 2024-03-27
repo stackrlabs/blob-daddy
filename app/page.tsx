@@ -24,36 +24,50 @@ export default function Home() {
     setExplorerLink("");
   }, [jobId]);
 
-  const onSettle = async (data: string, chain: string) => {
-    const res = await fetch("/api/settle", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data, chain }),
+  const onSettle = async (data: string, chain: string): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch("/api/settle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data, chain }),
+        });
+        const responseJson = await res.json();
+        setResponse(responseJson);
+        setVerifyResponse("");
+        setPending(true);
+        setJobId(responseJson.jobID);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
     });
-    const responseJson = await res.json();
-    setResponse(responseJson);
-    setVerifyResponse("");
-    setPending(true);
-    setJobId(responseJson.jobID);
   };
 
-  const onVerify = async (jobId: string) => {
-    const res = await fetch("/api/verify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ jobId }),
+  const onVerify = async (jobId: string): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await fetch("/api/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ jobId }),
+        });
+        const responseJson = await res.json();
+        setPending(responseJson.status === "pending");
+        setVerifyResponse(responseJson);
+        if (responseJson.link) {
+          setAutoRefresh(false);
+          setExplorerLink(responseJson.link);
+        }
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
     });
-    const responseJson = await res.json();
-    setPending(responseJson.status === "pending");
-    setVerifyResponse(responseJson);
-    if (responseJson.link) {
-      setAutoRefresh(false);
-      setExplorerLink(responseJson.link);
-    }
   };
 
   useEffect(() => {

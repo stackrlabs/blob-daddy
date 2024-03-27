@@ -17,7 +17,7 @@ export const DASelector: React.FC<DASelectorProps> = ({
     <div className="text-teal-primary w-3/4 relative">
       <Listbox value={selectedTab} onChange={setSelectedTab}>
         <div>
-          <Listbox.Button className="flex items-center justify-between w-full cursor-default rounded-bl-lg bg-grey-elevation-4 py-2 px-3 z-10">
+          <Listbox.Button className="flex items-center cursor-pointer justify-between w-full rounded-bl-lg bg-grey-elevation-4 py-2 px-3 z-10">
             <span>{selectedTab}</span>
             <CaretUpDown size={12} />
           </Listbox.Button>
@@ -27,22 +27,30 @@ export const DASelector: React.FC<DASelectorProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute bottom-full mb-1 w-fit rounded-md bg-grey-elevation-4 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Listbox.Options className="absolute bottom-full mb-1 w-fit border rounded-md bg-grey-elevation-4 py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
               {Object.values(Chain).map((chain, chainIndex) => (
                 <Listbox.Option
                   key={chainIndex}
                   className={({ active }) =>
-                    `flex relative cursor-default select-none py-2 px-3 ${
-                      active ? "text-white" : "text-white-44"
+                    `flex relative cursor-pointer select-none py-1 px-3 ${
+                      chain == Chain.EIGENLAYER
+                        ? "text-white/10"
+                        : active
+                        ? "text-teal-primary"
+                        : "text-white"
                     }`
                   }
                   value={chain}
                   disabled={chain == Chain.EIGENLAYER}
                 >
                   {({ selected }) => (
-                    <div className="flex gap-3 w-full">
+                    <div
+                      className={`flex gap-3 w-full px-4 py-1 ${
+                        selected && "bg-teal-primary bg-opacity-25 rounded-md"
+                      }`}
+                    >
                       {selected ? (
-                        <span className="flex items-center min-w-3 text-amber-600">
+                        <span className="flex items-center min-w-3 text-white">
                           <Check size={12} />
                         </span>
                       ) : (
@@ -50,10 +58,10 @@ export const DASelector: React.FC<DASelectorProps> = ({
                       )}
                       <span
                         className={` ${
-                          selected ? "font-medium text-white" : "font-normal"
+                          selected ? "font-medium " : "  font-normal"
                         }`}
                       >
-                        {chain}
+                        {chain == Chain.EIGENLAYER ? `${chain} (soon)` : chain}
                       </span>
                     </div>
                   )}

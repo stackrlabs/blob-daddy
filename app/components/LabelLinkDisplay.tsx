@@ -14,7 +14,7 @@ export const LabelLinkDisplay: React.FC<LabelTextDisplayProps> = ({
   return (
     <div className="flex items-center w-full">
       <span
-        className={`flex text-black ${explorerBg} text-sm h-full px-3 py-2`}
+        className={`flex text-black ${explorerBg} text-sm h-full px-3 py-2 items-center`}
       >
         {label}
       </span>

@@ -3,13 +3,15 @@ import { TextBox } from "./TextBox";
 import { DASelector } from "./DASelector";
 import { PrimaryButton } from "./PrimaryButton";
 import { Chain } from "../constants";
+import { useState } from "react";
+import { Spinner } from "./Spinner";
 
 interface SettleSectionProps {
   data: string;
   setData: React.Dispatch<React.SetStateAction<string>>;
   selectedTab: Chain;
   setSelectedTab: React.Dispatch<React.SetStateAction<Chain>>;
-  onSettle: (data: string, chain: string) => void;
+  onSettle: (data: string, chain: string) => Promise<void>;
 }
 
 export const SettleSection: React.FC<SettleSectionProps> = ({
@@ -19,6 +21,7 @@ export const SettleSection: React.FC<SettleSectionProps> = ({
   setSelectedTab,
   onSettle,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="flex flex-col h-full w-1/3 rounded-lg overflow-hidden">
       <SectionHeader
@@ -29,10 +32,12 @@ export const SettleSection: React.FC<SettleSectionProps> = ({
       <div className="flex w-full">
         <DASelector selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <PrimaryButton
-          text="Settle"
-          disabled={data == ""}
-          onClick={() => {
-            onSettle(data, selectedTab);
+          text={isLoading ? <Spinner /> : "Settle"}
+          disabled={data == "" || isLoading}
+          onClick={async () => {
+            setIsLoading(true);
+            await onSettle(data, selectedTab);
+            setIsLoading(false);
           }}
         />
       </div>

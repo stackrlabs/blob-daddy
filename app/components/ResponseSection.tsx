@@ -11,10 +11,10 @@ export const ResponseSection: React.FC<ResponseSectionProps> = ({
   response,
 }) => {
   return (
-    <div className="flex flex-col h-full w-1/3 rounded-lg overflow-hidden">
+    <div className="flex flex-col h-full w-1/3 rounded-lg">
       <SectionHeader
-        heading="Response Data"
-        onHoverText="View and respond to data that has been settled on a DA."
+        heading="Response"
+        onHoverText="Daddy returns a receipt for your data."
       />
       <CodeTerminal text={response} rounded="rounded-b-lg" />
     </div>
