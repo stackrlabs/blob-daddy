@@ -14,7 +14,9 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         <span>👨🏻</span>
       </div>
       <div className="flex gap-2">
-        <span>Fast DA-as-a-Service (DAash) for everyone |</span>
+        <span className="text-white">
+          Fast DA-as-a-Service (DAash) for everyone |
+        </span>
         <Link
           href="https://github.com/stackrlabs/go-daash"
           className="flex flex-row gap-2"
