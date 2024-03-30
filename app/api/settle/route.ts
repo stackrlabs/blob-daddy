@@ -1,6 +1,6 @@
 export async function POST(req: Request, res: Response) {
   const { data, chain } = await req.json();
-  if (chain === "avail" || chain === "celestia") {
+  if (chain.toLowerCase() === "avail" || chain.toLowerCase() === "celestia") {
     const apiRoute = process.env.VULCAN_API;
     const postResponse = await fetch(`${apiRoute}/${chain.toLowerCase()}`, {
       method: "POST",
