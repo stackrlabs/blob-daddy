@@ -1,6 +1,6 @@
 export async function POST(req: Request, res: Response) {
   const { jobId } = await req.json();
-  const apiRoute = process.env.API_URL;
+  const apiRoute = process.env.VULCAN_API;
   const postResponse = await fetch(`${apiRoute}/status/${jobId}`, {
     method: "GET",
   });
