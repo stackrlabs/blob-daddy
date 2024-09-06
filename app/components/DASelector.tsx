@@ -33,15 +33,10 @@ export const DASelector: React.FC<DASelectorProps> = ({
                   key={chainIndex}
                   className={({ active }) =>
                     `flex relative cursor-pointer select-none py-1 px-3 ${
-                      chain == Chain.EIGENLAYER
-                        ? "text-white/10"
-                        : active
-                        ? "text-teal-primary"
-                        : "text-white"
+                      active ? "text-teal-primary" : "text-white"
                     }`
                   }
                   value={chain}
-                  disabled={chain == Chain.EIGENLAYER}
                 >
                   {({ selected }) => (
                     <div
@@ -58,10 +53,10 @@ export const DASelector: React.FC<DASelectorProps> = ({
                       )}
                       <span
                         className={` ${
-                          selected ? "font-medium " : "  font-normal"
+                          selected ? "font-medium " : "font-normal"
                         }`}
                       >
-                        {chain == Chain.EIGENLAYER ? `${chain} (soon)` : chain}
+                        {chain}
                       </span>
                     </div>
                   )}
